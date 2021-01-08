@@ -2,6 +2,7 @@ package de.bsi.webflux.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.*;
 
 import org.awaitility.Awaitility;
@@ -34,11 +35,6 @@ class ReactiveVsMonoClientTest {
 	void setup() {
 		reactiveClient = WebClient.create(url2Mono);
 		classicClient = new RestTemplate();
-		
-		//String responseBody = new RestTemplate().getForEntity("https://petstore.swagger.io/v2/pet/findByStatus?status=available", String.class).getBody();
-		var spec = WebClient.create("https://petstore.swagger.io/v2/pet/findByStatus?status=available").get().retrieve().toEntity(String.class);
-		var response = spec.block();
-		System.out.println(response.getBody());
 	}
 	
 	@Order(1)
@@ -103,7 +99,7 @@ class ReactiveVsMonoClientTest {
 			final int requestId = i;
 			consumer.accept(requestId);
 		}
-		Awaitility.await().until(() -> openCalls <= 0);
+		Awaitility.await().timeout(1, TimeUnit.MINUTES).until(() -> openCalls <= 0);
 		long after = System.currentTimeMillis();
 		return after - before;
 	}

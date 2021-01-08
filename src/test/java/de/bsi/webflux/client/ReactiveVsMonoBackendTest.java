@@ -1,5 +1,7 @@
 package de.bsi.webflux.client;
 
+import java.util.concurrent.TimeUnit;
+
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class ReactiveVsMonoBackendTest {
 	
-	private static final int NUMBER_OF_CALLS = 50;
+	private static final int NUMBER_OF_CALLS = 500;
 	
 	@Order(1)
 	@Test
@@ -37,7 +39,7 @@ class ReactiveVsMonoBackendTest {
 		long before = System.currentTimeMillis();
 		for (int i = 1; i < NUMBER_OF_CALLS + 1; i++)
 			clientBean.callApi(i);
-		Awaitility.await().until(clientBean::isQueueEmpty);
+		Awaitility.await().timeout(1, TimeUnit.MINUTES).until(clientBean::isQueueEmpty);
 		return System.currentTimeMillis() - before;
 	}
 

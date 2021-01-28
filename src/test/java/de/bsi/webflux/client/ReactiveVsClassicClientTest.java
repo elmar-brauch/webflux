@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 @Slf4j
-class ReactiveVsMonoBackendTest {
+class ReactiveVsClassicClientTest {
 	
 	private static final int NUMBER_OF_CALLS = 500;
 	

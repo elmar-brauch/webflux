@@ -35,7 +35,7 @@ class ReactiveServiceTest {
 			log.info("Response received: " + employee);
 			openCalls--;
 		});
-		log.info("Request send. Mono response will be handled in another thread.");
+		log.info("Request send. Data published in Mono will be handled in another thread.");
 		Awaitility.await().timeout(10, TimeUnit.SECONDS).until(() -> openCalls <= 0);
 	}
 	

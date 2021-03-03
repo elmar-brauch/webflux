@@ -18,24 +18,34 @@ import reactor.core.publisher.*;
 @RestController
 public class ReactiveEmployeeController {
 	
+	private static final long WAITING_TIME_IN_SECONDS = 2;
+	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(Constants.URL_PATH_MONO)
 	public Mono<Employee> receiveMonoDelayed() {
-		return Mono.fromSupplier(() -> randomEmployee(2))
-				.doOnSubscribe(employee -> log.info("Mono subscribed."))
-				.doOnSuccess(employee -> log.info("Mono success"));
+		Mono<Employee> result = Mono.fromSupplier(() -> generateEmployee(WAITING_TIME_IN_SECONDS))
+				.doOnSuccess(employee -> log.info("Mono published: " + employee));
+		log.info("Returning Mono.");
+		return result;
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(path = Constants.URL_PATH_FLUX, produces = MediaType.APPLICATION_NDJSON_VALUE)
 	public Flux<Employee> receiveFlux() {
-		Supplier<Employee> supplier = () -> randomEmployee(2);
+		Supplier<Employee> supplier = () -> generateEmployee(WAITING_TIME_IN_SECONDS);
 		return Flux.fromStream(Stream.generate(supplier))
-				.doOnNext(employee -> log.info("Server generates: " + employee));
+				.doOnNext(employee -> log.info("Flux emits: " + employee));
 	}
 	
-	private Employee randomEmployee(long sleepInSeconds) {
-		Awaitility.await().pollDelay(sleepInSeconds, TimeUnit.SECONDS).until(() -> true);
+	/**
+	 * Method generates Employee.
+	 * To simulate long running processes, it waits the given time.
+	 * 
+	 * @param waitInSeconds before generating {@link Employee}.
+	 * @return Generated {@link Employee} with random identifiers.
+	 */
+	private Employee generateEmployee(long waitInSeconds) {
+		Awaitility.await().pollDelay(waitInSeconds, TimeUnit.SECONDS).until(() -> true);
 		var result = new Employee();
 		UUID randomId = UUID.randomUUID();
 		result.setEmpNo(randomId.toString());

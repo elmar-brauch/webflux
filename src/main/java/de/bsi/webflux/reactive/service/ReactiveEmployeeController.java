@@ -1,6 +1,6 @@
 package de.bsi.webflux.reactive.service;
 
-import java.time.*;
+import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -22,7 +22,7 @@ public class ReactiveEmployeeController {
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(Constants.URL_PATH_MONO)
-	public Mono<Employee> receiveMonoDelayed() {
+	public Mono<Employee> receiveMono() {
 		Mono<Employee> result = Mono.fromSupplier(() -> generateEmployee(WAITING_TIME_IN_SECONDS))
 				.doOnSuccess(employee -> log.info("Mono published: " + employee));
 		log.info("Returning Mono.");

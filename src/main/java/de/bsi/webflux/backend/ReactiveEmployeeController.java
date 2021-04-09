@@ -1,4 +1,4 @@
-package de.bsi.webflux.reactive.service;
+package de.bsi.webflux.backend;
 
 import java.time.Instant;
 import java.util.UUID;

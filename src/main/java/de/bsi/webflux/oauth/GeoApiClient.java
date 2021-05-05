@@ -31,7 +31,7 @@ public class GeoApiClient {
 	
 	@PostConstruct
 	private void initClient() {
-		String regId = GeoApiClient.class.getName();
+		String regId = "any_id_to_identify_oauth_registration";
 		var repo = createRegistrationRepo(regId);
 		this.client = WebClient.builder()
 				.baseUrl(serviceBaseUrl)

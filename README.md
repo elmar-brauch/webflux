@@ -14,6 +14,8 @@
   but you have to provide own endpoints and credentials in application.properties file.
   Here are details about the API, which I use:
   https://www.tmforum.org/resources/specification/tmf673-geographic-address-management-api-user-guide-v4-0-0/
+* Caching with Redis is done in classes inside de.bsi.webflux.cache package. You can start Redis inside a Docker container like this:
+    * docker run -d -p 6379:6379 redis redis-server --requirepass "geheim"
 
 
 ## More information

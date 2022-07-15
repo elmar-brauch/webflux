@@ -1,7 +1,6 @@
 package de.bsi.webflux.database;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,6 +24,6 @@ public class EmployeeDAO implements Serializable {
  
     private String fullName;
  
-    private LocalDate hireDate;
+    private int age;
     
 }

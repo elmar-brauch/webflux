@@ -1,12 +1,17 @@
 package de.bsi.webflux.database;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.time.LocalDate;
 import java.util.concurrent.CountDownLatch;
 
 import org.awaitility.Awaitility;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -29,8 +34,8 @@ class ReactiveEmployeePersistenceControllerTest {
 	void setup() {
 		client = WebClient.create(Constants.URL_BASE);
 		repo.deleteAll().block();
-		repo.insert(new EmployeeDAO(null, "007", "James Bond", LocalDate.EPOCH.plusDays(1))).block();
-		repo.insert(new EmployeeDAO(null, "001", "Jane Moneypenny", LocalDate.EPOCH)).block();
+		repo.insert(new EmployeeDAO(null, "007", "James Bond", 55)).block();
+		repo.insert(new EmployeeDAO(null, "001", "Jane Moneypenny", 39)).block();
 		assertEquals(2, repo.count().block());
 	}
 
@@ -50,7 +55,7 @@ class ReactiveEmployeePersistenceControllerTest {
 	@Test
 	void reactiveReadTest() {
 		final Disposable disposable = client.get()
-				.uri(Constants.URL_PATH_EMPLOYEE + "?hiredAtOrLater=1970-01-01")
+				.uri(Constants.URL_PATH_EMPLOYEE + "?minAge=40")
 				.retrieve().bodyToFlux(EmployeeDAO.class)
 				.subscribe(e -> empNos += e.getEmpNo());
 		Awaitility.await().until(() -> disposable.isDisposed());
@@ -60,7 +65,7 @@ class ReactiveEmployeePersistenceControllerTest {
 	@Test
 	void reactiveWriteTest() {
 		final Disposable disposable = client.post().uri(Constants.URL_PATH_EMPLOYEE)
-				.bodyValue(new EmployeeDAO(null, "008", "Bill", LocalDate.of(1979, 6, 26)))
+				.bodyValue(new EmployeeDAO(null, "008", "Bill", 25))
 				.retrieve().bodyToMono(EmployeeDAO.class).subscribe();
 		Awaitility.await().until(() -> disposable.isDisposed());
 		assertEquals(3, repo.count().block());
@@ -74,7 +79,7 @@ class ReactiveEmployeePersistenceControllerTest {
 	@Test
 	@Order(1)
 	void reactiveWriteAndReadTest() {
-		int apiCalls = 500; 
+		int apiCalls = 250; 
 		var counter = new CountDownLatch(apiCalls);
 		for (int i = 0; i < apiCalls; i++)
 			client.post().uri(Constants.URL_PATH_EMPLOYEE)

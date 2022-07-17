@@ -14,7 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext.Seria
 public class EmployeeCacheConfiguration {
 	
 	@Bean
-	public RedisCacheConfiguration cacheConfiguration() {
+	RedisCacheConfiguration cacheConfiguration() {
 		return RedisCacheConfiguration.defaultCacheConfig()
 				.entryTtl(Duration.ofMinutes(1))
 				.serializeValuesWith(SerializationPair.fromSerializer(

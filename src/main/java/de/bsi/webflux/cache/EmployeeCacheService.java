@@ -20,4 +20,8 @@ public class EmployeeCacheService {
     public List<EmployeeDAO> getAllEmployees() {
         return mongoRepo.findAll().toStream().toList();
     }
+    
+    public EmployeeDAO getEmployee(String id) {
+    	return mongoRepo.findById(id).block();
+    }
 }

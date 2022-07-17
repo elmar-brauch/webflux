@@ -2,7 +2,6 @@ package de.bsi.webflux.cache;
 
 import java.time.Duration;
 
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -10,8 +9,11 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 
 @Configuration
-@EnableCaching
+// TODO Activate Cache for application by annotation 
 public class EmployeeCacheConfiguration {
+	
+	// TODO Create RedisCacheConfiguration bean
+	// 		with default config, TTL and Jackson serialization
 	
 	@Bean
 	public RedisCacheConfiguration cacheConfiguration() {

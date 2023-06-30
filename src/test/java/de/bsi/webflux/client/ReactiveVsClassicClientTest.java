@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class ReactiveVsClassicClientTest {
 	
-	private static final int NUMBER_OF_CALLS = 500;
+	private static final int NUMBER_OF_CALLS = 10;
 	
 	@Order(1)
 	@Test

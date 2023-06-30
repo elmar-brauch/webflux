@@ -2,11 +2,10 @@ package de.bsi.webflux.backend;
 
 import java.util.*;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 

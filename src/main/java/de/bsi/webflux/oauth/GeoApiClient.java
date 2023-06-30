@@ -1,7 +1,5 @@
 package de.bsi.webflux.oauth;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.InMemoryReactiveOAuth2AuthorizedClientService;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import jakarta.annotation.PostConstruct;
 import lombok.Setter;
 import reactor.core.publisher.Flux;
 

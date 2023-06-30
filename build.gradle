@@ -1,11 +1,11 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'org.springframework.boot' version '3.1.1'
+	id 'io.spring.dependency-management' version '1.1.0'
 	id 'java'
 }
 
 group = 'de.bsi'
-version = '0.8'
+version = '0.9'
 sourceCompatibility = '17'
 
 configurations {
@@ -26,12 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 	implementation 'org.springframework.security:spring-security-oauth2-client'
 	implementation 'org.awaitility:awaitility:4.2.0'
-    implementation 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-test {
+tasks.named('test') {
 	useJUnitPlatform()
 }

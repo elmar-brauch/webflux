@@ -14,6 +14,7 @@ public class PetStoreController {
 	
 	record Pet(String name, long id) {}
 	
+	// TODO Set proxy: -Dhttps.proxyHost=sia-lb.telekom.de -Dhttps.proxyPort=8080
 	@GetMapping("/pet1")
 	public Pet findPetBlocking() {
 		return firstPetWithRestTemplate();
@@ -26,16 +27,14 @@ public class PetStoreController {
 		return response.getBody()[0];
 	}
 	
-	// TODO 2nd Get endpoint returning Mono
-	// TODO Use WebClient 
-	
+	// TODO 2nd Get endpoint returning Mono use WebClient
 //	@GetMapping("/pet2")
 //	public Mono<Pet> findPetReactive() {
 //		return findPetWithWebClient();
 //	}
 //	
 //	private Mono<Pet> findPetWithWebClient() {
-//		var client = WebClient.create();
+//		var client = WebClient.builder().clientConnector(proxyForWebClient()).build();
 //		var mono = client.get()
 //				.uri(PETSTORE_URL)
 //				.retrieve()
@@ -43,6 +42,14 @@ public class PetStoreController {
 //				.map(pets -> pets[0]);
 //		log.info("NOT WAITING FOR RESPONSE");
 //		return mono;
+//	}
+//	
+//	private ReactorClientHttpConnector proxyForWebClient() {
+//		var httpClient = HttpClient.create().proxy(proxy -> proxy
+//                .type(Proxy.HTTP)
+//                .host("sia-lb.telekom.de")
+//                .port(8080));
+//		return new ReactorClientHttpConnector(httpClient);
 //	}
 	
 }
